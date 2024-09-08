@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Hash Generator</title>
+</head>
+<body>
+<h1>Generate Hash</h1>
+<form th:action="@{/hash}" method="post">
+    <label for="input">Enter password to hash:</label>
+    <input type="text" id="input" name="input" />
+    <button type="submit">Generate Hashes</button>
+</form>
+<div>
+    <h2>MD5: <span th:text="${md5Hash}"></span></h2>
+    <h2>SHA-256: <span th:text="${sha256Hash}"></span></h2>
+</div>
+<a th:href="@{/search}">Go to Search Hash</a>
+</body>
+</html>

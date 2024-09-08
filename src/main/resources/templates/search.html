@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Search Hash</title>
+</head>
+<body>
+<h1>Search Hash</h1>
+<form th:action="@{/search}" method="post">
+    <label for="hashValue">Enter hash value (MD5 or SHA-256):</label>
+    <input type="text" id="hashValue" name="hashValue" />
+    <button type="submit">Search</button>
+</form>
+<div>
+    <h2 th:if="${password}">Password: <span th:text="${password}"></span></h2>
+    <h2 th:if="${message}">Message: <span th:text="${message}"></span></h2>
+</div>
+<a th:href="@{/hash}">Go to Generate Hash</a>
+</body>
+</html>

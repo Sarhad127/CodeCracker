@@ -13,7 +13,7 @@ public class SecurityConfig {
         http
                 .authorizeRequests(authorizeRequests ->
                         authorizeRequests
-                                .requestMatchers("/", "/login","/search","/hash").permitAll()
+                                .requestMatchers("/", "/login").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .oauth2Login(oauth2Login ->

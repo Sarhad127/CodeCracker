@@ -2,18 +2,107 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Search Hash</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        h1, h2 {
+            color: #333;
+        }
+
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            width: 100%;
+            max-width: 500px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        label {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+
+        button {
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .result-message {
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+            text-align: left;
+        }
+
+        .result-message h2 {
+            font-size: 1.2em;
+            color: #333;
+        }
+
+        .result-message span {
+            color: #555;
+        }
+
+        a {
+            margin-top: 20px;
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
 <h1>Search Hash</h1>
 <form th:action="@{/search}" method="post">
     <label for="hashValue">Enter hash value (MD5 or SHA-256):</label>
-    <input type="text" id="hashValue" name="hashValue" />
+    <input type="text" id="hashValue" name="hashValue" placeholder="Enter hash value" required />
     <button type="submit">Search</button>
 </form>
-<div>
+
+<div class="result-message">
     <h2 th:if="${password}">Password: <span th:text="${password}"></span></h2>
     <h2 th:if="${message}"><span th:text="${message}"></span></h2>
 </div>
+
 <a th:href="@{/hash}">Go to Generate Hash</a>
 </body>
 </html>

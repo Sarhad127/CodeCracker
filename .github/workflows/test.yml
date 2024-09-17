@@ -1,4 +1,4 @@
-name: Java CI with Gradle
+name: CodeCracker CI with Gradle
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
     branches: [ "master" ]
 
 env:
-  build-number: ${GITHUB_RUN_NUMBER}
+  build-number: ${{ GITHUB_RUN_NUMBER }}
 
 permissions:
   contents: write
@@ -30,11 +30,25 @@ jobs:
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
         with:
-          gradle-version: '8.9'
+          gradle-version: '8.10' # Updated to Gradle 8.10
+
+      - name: Cache Gradle packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.gradle/caches
+          key: gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: gradle-
 
       - name: Build
-        run: gradle build
-      - run: mv build/libs/CodeCracker-0.0.1-SNAPSHOT.jar build/libs/CodeCracker-1.${{ env.build-number }}.1.jar
+        run: gradle build --no-daemon
+
+      - name: Run Tests
+        run: gradle test --no-daemon
+
+      - name: Rename JAR
+        if: success()
+        run: mv build/libs/CodeCracker-0.0.1-SNAPSHOT.jar build/libs/CodeCracker-1.${{ env.build-number }}.1.jar
+
       - run: mkdir -p staging && cp build/libs/CodeCracker-1.${{ env.build-number }}.1.jar staging/CodeCracker-1.${{ env.build-number }}.1.jar
 
       - uses: "marvinpinto/action-automatic-releases@latest"
@@ -42,7 +56,6 @@ jobs:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           automatic_release_tag: "latest"
           prerelease: false
-          title: "version"
+          title: "Release 1.${{ env.build-number }}.1"
           files: |
             staging/*.jar
-
